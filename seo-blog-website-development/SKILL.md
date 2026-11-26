@@ -199,6 +199,8 @@ Load only the file the current phase needs:
 - `references/design-and-accessibility.md` - Stitch workflow, design system, WCAG 2.2.
 - `references/cloudflare-github-security.md` - Cloudflare deploy, GitHub workflow, security audit integration.
 - `references/adsense-analytics-qa-maintenance.md` - AdSense readiness, analytics, full QA checklists, maintenance.
+- `references/runbook.md` - step-by-step commands for a new build and an existing-site audit.
+- `templates/PROJECT.md` - the shared project-context skeleton; copy and fill during discovery.
 
 ## Verification
 

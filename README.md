@@ -18,16 +18,24 @@ Each skill is independently executable. They interoperate through a shared `PROJ
 ```
 seo-blog-automation/
 ├── README.md
+├── scripts/
+│   └── validate.py                        (frontmatter + dangling-reference validator)
 ├── seo-blog-website-development/
 │   ├── SKILL.md
-│   └── references/          (6 files: discovery, architecture, technical-seo,
-│                             design, cloudflare-github-security, adsense-qa)
+│   ├── templates/PROJECT.md               (shared project-context skeleton)
+│   └── references/                        (discovery, architecture, technical-seo,
+│                                           design, cloudflare-github-security,
+│                                           adsense-qa, runbook)
 └── seo-article-planning-schedule/
     ├── SKILL.md
-    └── references/          (8 files: discovery, research, topical-authority,
-                              content-production, publishing-calendar,
-                              google-sheets-tracker, performance-monitoring,
-                              multica-autopilot)
+    ├── templates/                         (article-brief, monthly-report)
+    ├── scripts/check-keyword-uniqueness.py  (1 primary + 5 secondaries guard)
+    └── references/                        (discovery, research, topical-authority,
+                                            content-production, publishing-calendar,
+                                            google-sheets-tracker, performance-monitoring,
+                                            multica-autopilot, rankmath-95-gate,
+                                            cron-schedule, gsc-ga4-integration,
+                                            step-by-step-runbook)
 ```
 
 Each `SKILL.md` holds the operating principles, decision rules, workflows and quality gates.

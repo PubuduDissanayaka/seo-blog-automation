@@ -168,6 +168,11 @@ Load only the file the current stage needs:
 - `references/performance-monitoring.md` - GSC/GA4, decay and refresh, backlinks, reporting, roadmap.
 - `references/multica-autopilot.md` - agent roles, workflows, autonomy levels, reliability.
 - `references/rankmath-95-gate.md` - the programmatic RankMath 95+ scoring gate enforced before automated publish.
+- `references/cron-schedule.md` - the weekly/monthly/quarterly cron jobs that run the loop.
+- `references/gsc-ga4-integration.md` - Search Console and GA4 data access, kept separate.
+- `references/step-by-step-runbook.md` - the operating loop as ordered steps.
+- `templates/article-brief.md` - fillable per-article brief; `templates/monthly-report.md` - report skeleton.
+- `scripts/check-keyword-uniqueness.py` - the 1-primary + 5-secondary uniqueness guard.
 
 ## Verification
 

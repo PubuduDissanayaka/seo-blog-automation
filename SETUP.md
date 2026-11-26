@@ -129,7 +129,100 @@ Skills register at session start. If a skill does not appear, start a new sessio
 
 ---
 
-## 3. Create the site (Skill 01)
+## 3. Runtime and workspace
+
+The skills are instructions; something has to run them. Three layers, only the first is required.
+
+### 3.1 Hermes Agent (the runtime)
+
+```bash
+curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash
+hermes setup      # pick provider, model, enter keys
+hermes doctor     # health check
+```
+
+| Path | Holds | Rule |
+|---|---|---|
+| `~/.hermes/config.yaml` | Settings | Never secrets. Change it with `hermes config set KEY VAL`, never by hand: a stray indent corrupts the live gateway. |
+| `~/.hermes/.env` | API keys and secrets ONLY | `chmod 600`, never committed, never synced. |
+| `$HERMES_HOME/skills/` | Installed skills | Where these two go. |
+| `~/.hermes/state.db` | Session store | Back it up. Never sync it between hosts. |
+| `~/.hermes/profiles/<name>/` | Isolated instances | Resolve the home from `$HERMES_HOME`, never hardcode `~/.hermes`. |
+
+Two install traps that cost hours on a fresh server:
+
+- **`libatomic1` missing on minimal Ubuntu** makes every node binary fail, and the installer then reports a
+  false *"Node.js is too old (requires >=26)"* and appears to hang. `apt-get install -y libatomic1`, re-run.
+- **The real Node floor is 22.22.0, not 26.** A system Node at or above that passes and the installer skips
+  its managed download entirely.
+- A `browser (system dependency not met)` warning in `hermes doctor` is **expected** when the browser backend
+  is `browser-use`. It is not a fault.
+
+Skills load at session start. After installing a skill, start a new session (`/reset` in the CLI, `/restart`
+for the gateway) before concluding the copy failed.
+
+Optional surfaces worth knowing: `hermes dashboard` (web admin), `hermes desktop`, a messaging gateway
+(Telegram, Discord, Slack) so jobs report into chat, and the cron scheduler for the recurring SEO work.
+
+### 3.2 Multica (multi-agent workspace), optional
+
+What it adds: issues as the unit of work, agents with their own model and skills, squads that route work,
+autopilots on a schedule or webhook, and projects bound to a repository or local directory.
+
+When these two skills benefit from it: once one agent can no longer hold build and growth at once, or when
+you want the growth roles (writer, fact checker, editor, publishing manager) running as separate lanes with
+approval gates.
+
+**The auth model, and the trap that matters.** Agent runs execute as daemon tasks and receive a task-scoped
+`mat_` token in the worker environment. That is the credential that writes as the agent. The CLI also holds a
+workspace-owner token (`mul_`) in `$HOME/.multica/config.json`, and running `cd /root && multica ...` silently
+falls back to it, at which point every comment is filed as the owner rather than the agent. That is an
+integrity defect, not a cosmetic one: never use that fallback for anything written in an agent's voice.
+
+If a task shell reports *"requires MULTICA_TOKEN to be a task-scoped mat_ token"*, the shell did not inherit
+the worker environment. Recover it per invocation, never by exporting once:
+
+```bash
+bash ~/.hermes/skills/multica-platform/scripts/multica_task_env.sh multica issue list --output json
+```
+
+That helper resolves its config root by walking up from `$PWD`, so a stray `cd` into a project directory makes
+it exit 97 with empty stdout. Return to the task workdir first.
+
+**The `HERMES_HOME` trap, which will bite you exactly once.** Multica exports `HERMES_HOME` per task to a
+task-scoped home. Any skill sync run from inside a task therefore mirrors the task-scoped tree instead of your
+real one, and the sync reports `nothing changed` while your edit never travels. Always be explicit:
+
+```bash
+HERMES_HOME=/root/.hermes bash hermes-sync.sh push
+```
+
+To put these skills into a workspace, use the platform's own skill import (URL or local archive). Read
+`multica-platform` references/skill-import.md for the current contract rather than guessing flags.
+
+### 3.3 Keeping skills in sync across machines
+
+If you work from more than one machine, converge on a **private git repo**, not ad-hoc copies.
+
+- Sync: `skills/`, `memories/`, `config.yaml`, `SOUL.md`.
+- Never sync: `.env`, `auth.json`, `state.db`, `sessions/`, `logs/`, `node/`, `cache/`, `cron/`.
+- Push **before** pull. A pull-first script reverts edits you made but did not push, and the symptom is a file
+  behaving like its previous version.
+- Hold an edit lock (or use `rsync -u`) across any batch of edits, or the next scheduled pull can land inside
+  your own change.
+
+### 3.4 Composio and MCP integrations
+
+- **Composio** for Cloudflare, GitHub, Google Sheets, Google Stitch and similar: `composio search`, read the
+  schema with `--get-schema`, then `composio execute`. Verify a connection with a real call before building a
+  plan on it; a listed connection can still be dead.
+- **MCP servers** natively: `hermes mcp add <name> --command "..."` for stdio or `--url` for HTTP, and
+  `hermes mcp install <name>` for the catalog. The OpenSEO MCP (projects, keyword data, SERP, Search Console)
+  is what the growth skill's research and monitoring lean on.
+- **Google** data: Search Console and GA4 through Composio where connected, or direct APIs. Keep the two
+  sources separate in everything you report.
+
+## 4. Create the site (Skill 01)
 
 ### Step 1: a new repository for the site
 
@@ -171,7 +264,7 @@ in advance:
 
 ---
 
-## 4. Wire the accounts
+## 5. Wire the accounts
 
 ### Cloudflare Pages
 
@@ -204,7 +297,7 @@ to EEA, UK or Swiss visitors. Publish `ads.txt` after approval.
 
 ---
 
-## 5. Start growing (Skill 02)
+## 6. Start growing (Skill 02)
 
 Load `seo-article-planning-schedule`. It reads `PROJECT.md` so it plans against the site you actually built.
 
@@ -231,12 +324,14 @@ article's secondary.
 
 ---
 
-## 6. Verify the whole setup
+## 7. Verify the whole setup
 
 Run this once end to end. Every line should be true before you call the environment ready.
 
 - [ ] `python3 scripts/validate.py` passes
 - [ ] `bash scripts/preflight.sh` exits 0 with no FAIL
+- [ ] `hermes doctor` reports no unexplained failures (a `browser (system dependency not met)` warning is expected)
+- [ ] `HERMES_HOME` points at your real home, not a task-scoped one, when you run a skill sync
 - [ ] Both skills load in a new session
 - [ ] The site's `PROJECT.md` exists, is committed, and contains no secrets
 - [ ] A design direction artifact and `design/tokens.json` are committed before any markup
@@ -250,7 +345,7 @@ Run this once end to end. Every line should be true before you call the environm
 
 ---
 
-## 7. Troubleshooting
+## 8. Troubleshooting
 
 | Symptom | Cause | Fix |
 |---|---|---|
@@ -266,7 +361,7 @@ Run this once end to end. Every line should be true before you call the environm
 
 ---
 
-## 8. What it costs to run
+## 9. What it costs to run
 
 **Free path:** GitHub, Cloudflare Pages (static requests are free and unlimited), Search Console, GA4, Google
 Sheets, Stitch via Composio. A content blog with no server functions costs nothing but the domain.

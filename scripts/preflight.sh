@@ -47,6 +47,37 @@ else
   warn "gh CLI not found (optional, but deploys and repo setup are easier with it)"
 fi
 
+head_ "Runtime"
+
+HH="${HERMES_HOME:-$HOME/.hermes}"
+case "$HH" in
+  */multica_workspaces/*) warn "HERMES_HOME is task-scoped ($HH) - run any skill sync with HERMES_HOME=/root/.hermes explicitly" ;;
+  *) ok "HERMES_HOME = $HH" ;;
+esac
+
+if command -v hermes >/dev/null 2>&1; then
+  ok "hermes $(hermes --version 2>/dev/null | head -1) (the runtime that loads these skills)"
+else
+  warn "hermes CLI not found (required to load these skills; see SETUP.md section 3.1)"
+fi
+
+if command -v multica >/dev/null 2>&1; then
+  ok "multica CLI present (optional multi-agent workspace)"
+  if [ -f "$HH/skills/multica-platform/scripts/multica_task_env.sh" ]; then
+    ok "multica task-env helper present"
+  else
+    warn "multica-platform skill not installed (needed for a task-scoped mat_ token)"
+  fi
+else
+  warn "multica CLI not found (optional; see SETUP.md section 3.2)"
+fi
+
+if command -v composio >/dev/null 2>&1; then
+  ok "composio CLI present (optional Cloudflare/Sheets/Stitch integrations)"
+else
+  warn "composio CLI not found (optional)"
+fi
+
 head_ "The two skills"
 
 for s in seo-blog-website-development seo-article-planning-schedule; do

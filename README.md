@@ -184,7 +184,7 @@ Full specification and the hard pitfalls that silently cost points: [`rankmath-9
 
 | Artifact | Purpose |
 |:--|:--|
-| `scripts/preflight.sh` | Checks Node, Python, git, browser, GitHub auth and all 28 companion skills. Exits non-zero on any hard failure. |
+| `scripts/preflight.sh` | Checks the toolchain, the Hermes/Multica/Composio runtime, both skills and all 28 companion skills. Exits non-zero on any hard failure. |
 | `scripts/validate.py` | Validates both skills and every referenced file. Stdlib only, runs on a fresh clone. |
 | `templates/PROJECT.md` | The shared context skeleton both skills depend on. |
 | `templates/article-brief.md` | 21-field brief. Filled before any draft exists. |

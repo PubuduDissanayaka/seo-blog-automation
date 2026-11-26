@@ -4,7 +4,7 @@
 
 ![License](https://img.shields.io/badge/license-MIT-2563eb)
 ![Skills](https://img.shields.io/badge/skills-2-0f766e)
-![References](https://img.shields.io/badge/deep--dive%20references-19-7c3aed)
+![References](https://img.shields.io/badge/deep--dive%20references-21-7c3aed)
 ![Publish gate](https://img.shields.io/badge/publish%20gate-RankMath%2095%2B-d97706)
 
 Give either skill to a capable agent (Hermes Agent, Claude Code, Codex, a multi-agent workspace) and it arrives with the decisions, workflows, quality gates and reference material already in place. No re-briefing, no improvised architecture, no checklist theatre.
@@ -52,9 +52,14 @@ python3 scripts/validate.py
 
 ## Design principles
 
+**Design is a gate, not a phase.** No markup is written before a direction and a token file exist, and no
+deploy happens before the design gates pass. Palette, inspector, type, contrast and axe are measured in a
+real browser. Design is wired to a real stack rather than improvised: Stitch for the concept, `ui-ux-pro-max`
+for the system, `design-taste-frontend` for art direction and the anti-slop gates.
+
 **Static-first.** Static generation is the default for content publishing. Server rendering, Workers, databases and dynamic code appear only when a real requirement forces them, and the skill records which requirement in the project file. Nobody adds a database because they can.
 
-**Progressive disclosure.** Each `SKILL.md` carries the decisions, rules and gates. The 19 reference files hold the depth, loaded only when the current phase needs them. You pay for the phase you are in, not the whole library.
+**Progressive disclosure.** Each `SKILL.md` carries the decisions, rules and gates. The 21 reference files hold the depth, loaded only when the current phase needs them. You pay for the phase you are in, not the whole library.
 
 **Verified, never asserted.** A green `npm run build` proves nothing about rendering, indexability or schema. Every gate in these skills inspects the built output, the live host, or a real API response. "Deployed" means the production host answered, not that the local build passed.
 
@@ -77,11 +82,13 @@ seo-blog-automation/
 │   ├── SKILL.md                             phases, decision rules, quality gates
 │   ├── templates/
 │   │   └── PROJECT.md                       shared project-context skeleton
-│   └── references/                          7 deep dives
+│   └── references/                          9 deep dives
+│       ├── ui-ux-design.md                  design-first: skill stack, 10-step run, design gates, slop rules
+│       ├── design-and-accessibility.md      token layer, WCAG 2.2 implementation
 │       ├── project-discovery.md             questionnaire + category logic (YMYL, travel, commerce)
 │       ├── architecture-and-astro.md        stack choice, content collections, URL + page architecture
 │       ├── technical-seo.md                 crawl, index, metadata, schema, internal links, hreflang
-│       ├── design-and-accessibility.md      Stitch workflow, design system, WCAG 2.2
+│       ├── heading-hierarchy-verification.md one H1, no skipped levels, checked in built HTML
 │       ├── cloudflare-github-security.md    Pages deploy, DNS, headers, GitHub workflow, security audit
 │       ├── adsense-analytics-qa-maintenance.md  monetisation gate, analytics, QA checklists, upkeep
 │       └── runbook.md                       ordered commands for a new build and an existing-site audit
@@ -118,7 +125,7 @@ Ten phases, each with a completion criterion that is checked rather than assumed
 |:--|:--|
 | Discovery | Populated `PROJECT.md`, all assumptions recorded |
 | Architecture | Stack, rendering strategy, URL structure, page set, cost estimate |
-| Design | Committed Stitch concept, palette audited to zero off-token colours |
+| Design | Committed direction artifact and tokens, palette and inspector gates green |
 | Implementation | Astro build with typed content collections and strict schemas |
 | Technical SEO | Crawl, index, canonical, metadata, schema, internal links |
 | Performance and accessibility | Core Web Vitals budget met, axe clean per route |

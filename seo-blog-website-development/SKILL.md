@@ -23,7 +23,8 @@ monitoring) - that is the `seo-article-planning-schedule` skill. The two share a
 
 Default stack, unless discovery justifies otherwise: Astro (static output), TypeScript, content collections
 (markdown/MDX), Tailwind, Cloudflare Pages (git-connected), GitHub. Reference implementation to imitate:
-MyGreenyGarden (mygreenygarden.com) - Astro + Cloudflare Pages, AdSense goal, human-edit-before-publish.
+MyGreenyGarden (mygreenygarden.com) - Astro + Cloudflare Pages, AdSense goal, automated publishing
+behind quality gates.
 
 ## When to Use
 
@@ -59,14 +60,35 @@ billing, infra changes are approval-gated (see Autonomy).
 8. **Genuine user value beats technical tricks.** Readability, navigation and search intent over keyword
 manipulation, artificial internal links or misleading schema.
 
+## UI/UX Design Is a First-Class Priority
+
+Design is not a phase that happens after the build and it is not decoration. On a content site it decides
+whether anyone reads the article and whether the ads earn. Two rules, both non-negotiable:
+
+1. **No markup is written before a direction exists.** A committed Stitch concept (or an equivalent design
+   system artifact) plus a token file precede implementation. "I will style it later" is how a site ships
+   looking like every other generated blog.
+2. **No deploy before the design gates pass.** Palette, inspector, type, contrast and axe are measured in a
+   real browser, not asserted in a commit message.
+
+Load the design stack rather than improvising: `google-stitch-concepts` first, then `ui-ux-pro-max` for the
+system, `design-taste-frontend` for art direction and the anti-slop gates, `design-reference-research` for
+references, `frontend-ui-engineering` for production implementation. The full run, the gates and the
+blog-specific priorities: `references/ui-ux-design.md`.
+
 ## Prerequisites and Tools
 
-- **Reference skills to load and delegate to, not duplicate:** `astro-static-site-build` (Astro + content
+- **Design skills (load before writing any markup):** `google-stitch-concepts` (Stitch concept first,
+committed evidence), `ui-ux-pro-max` (design system generation, palettes, type pairings, UX rules, `astro`
+stack guidance), `design-taste-frontend` (art direction, anti-slop house rules, `lint.mjs` + `inspect.mjs`
+gates, critique rubric), `design-reference-research` (shortlist real references), `inspo-mcp` /
+`awwwards-mcp` / `popular-web-designs` (live and published reference evidence), `hallmark` (AI-slop audit),
+`frontend-ui-engineering` (production accessible implementation), `site-brand-assets` (logo/favicon/brand).
+- **Build skills to load and delegate to, not duplicate:** `astro-static-site-build` (Astro + content
 collections + tokens + verification templates), `cloudflare-pages-hosting` (Pages deploy, cutover, DNS,
-`_headers`/`_redirects`), `cloudflare-security-audit` (security audit workflow), `google-stitch-concepts`
-(Stitch design workflow), `modern-web-guidance` (native platform patterns - run its `search`/`retrieve`
-before writing HTML/CSS/client JS), `static-site-hardening` (headers), `schema` (structured data),
-`site-brand-assets` (logo/favicon/brand).
+`_headers`/`_redirects`), `cloudflare-security-audit` (security audit workflow), `modern-web-guidance`
+(native platform patterns - run its `search`/`retrieve` before writing HTML/CSS/client JS),
+`static-site-hardening` (headers), `schema` (structured data).
 - **Composio** for Cloudflare, GitHub, Google Sheets/Drive integrations where authorised. Discover with
 `composio search`, read schemas with `--get-schema`, never assume a connection exists (verify with a real
 call).
@@ -104,11 +126,16 @@ system, SEO architecture, deployment, infra cost estimate. Decision rules and th
 conventions: `references/architecture-and-astro.md`. Output: decisions recorded in PROJECT.md, a written
 architecture summary. Completion: every architectural decision has an explicit, justified answer.
 
-**Phase 2 - Design and design system (Stitch-first).** Per `google-stitch-concepts` and the standing rule:
-user-visible UI goes through Google Stitch first. Brand -> niche research -> reference analysis -> visual
-direction -> palette/type/spacing -> responsive layouts -> components -> accessibility/navigation review ->
-convert to Astro components. Details: `references/design-and-accessibility.md`. Completion: committed Stitch
-concept (PNG + HTML) with the palette audited to zero off-token colours.
+**Phase 2 - UI/UX design and design system (a hard gate before any markup).** Run the design stack in
+order. Brand and reader context -> reference shortlist (`design-reference-research`, `inspo-mcp`) ->
+concept in Stitch (`google-stitch-concepts`) -> design system (`ui-ux-pro-max --design-system`, optionally
+with `--variance/--motion/--density`, `--persist` to write MASTER.md) -> tokens committed as
+`design/tokens.json` -> responsive layouts at 1440/768/390 -> component and state inventory -> copy deck ->
+accessibility and navigation review. Then gate it: palette to zero off-token colours, inspector with no
+`FAIL`, contrast AA, headlines two lines at every width, screenshots actually reviewed. Nothing in Phase 3
+starts until this passes. Full 10-step run and the gate detail: `references/ui-ux-design.md`. Completion:
+tokens committed, direction artifact committed (Stitch PNG + HTML, or MASTER.md), palette and inspector
+gates green, screenshots reviewed at three widths.
 
 **Phase 3 - Astro implementation.** Production coding standards, component/layout architecture, content
 collections with strict schemas, reusable SEO components, nav/footer, responsive images, self-hosted fonts,
@@ -160,6 +187,9 @@ follow-ups.
 
 ## Quality Gates (abridged; full checklist in references/adsense-analytics-qa-maintenance.md)
 
+Design (before any markup): committed direction artifact · tokens committed · palette gate zero off-token ·
+inspector no `FAIL` at 1440/768/390 · contrast AA · headlines two lines at every width · screenshots
+reviewed.
 Predeploy: build success · every route renders · responsive at 1280/390 · no broken internal links · unique
 titles/meta per page type · canonical correct · sitemap + robots valid · schema validates in built HTML ·
 axe clean · performance budget met · analytics tag present in PROD only · redirects land on real pages.
@@ -196,16 +226,19 @@ Load only the file the current phase needs:
 - `references/project-discovery.md` - full discovery questionnaire, category-specific logic, PROJECT.md schema.
 - `references/architecture-and-astro.md` - tech evaluation, Astro architecture, content collections, page and URL architecture.
 - `references/technical-seo.md` - crawling/indexing, metadata, structured data, internal linking, hreflang.
-- `references/design-and-accessibility.md` - Stitch workflow, design system, WCAG 2.2.
+- `references/ui-ux-design.md` - design-first playbook: skill stack, 10-step run, design gates, anti-slop rules, blog priorities.
+- `references/design-and-accessibility.md` - accessibility implementation, the token layer, WCAG 2.2.
 - `references/cloudflare-github-security.md` - Cloudflare deploy, GitHub workflow, security audit integration.
 - `references/adsense-analytics-qa-maintenance.md` - AdSense readiness, analytics, full QA checklists, maintenance.
 - `references/runbook.md` - step-by-step commands for a new build and an existing-site audit.
 - `templates/PROJECT.md` - the shared project-context skeleton; copy and fill during discovery.
+- `references/heading-hierarchy-verification.md` - heading hierarchy verification checklist (one H1, no skipped levels).
 
 ## Verification
 
 - [ ] PROJECT.md exists and records every discovery answer and architectural decision
-- [ ] Stitch concept committed and on-palette before any markup
+- [ ] Design direction artifact committed (Stitch PNG + HTML or MASTER.md) and tokens committed, before any markup
+- [ ] Palette gate zero off-token, inspector no `FAIL` at 1440/768/390, contrast AA, screenshots reviewed by eye
 - [ ] Build green AND routes verified in a real browser at 1280 and 390
 - [ ] robots.txt, sitemap, canonical, schema, unique metadata all verified in the BUILT or LIVE output
 - [ ] axe clean; performance budget met with measured (not quoted) numbers

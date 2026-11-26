@@ -1,23 +1,13 @@
 # Design and Accessibility
 
-## Google Stitch workflow (design-first)
+## Design direction
 
-Standing rule: user-visible UI goes through Google Stitch before any markup is written. Load
-`google-stitch-concepts` and follow it - this reference only maps the workflow to blog builds.
+The direction, the design-system workflow, the design skill stack and the design gates live in
+`references/ui-ux-design.md`. Run that first. This file covers the token layer and the accessibility
+implementation that direction lands on.
 
-1. Understand brand identity (from PROJECT.md or discovery).
-2. Research 3-5 real niche websites; analyse reference designs for structure, not to copy.
-3. Develop the visual direction (accent, restraint vs invention, type pairing).
-4. Define the palette, typography, spacing and layout scale as a token file.
-5. Design desktop, tablet and mobile layouts for each key template (home, article, category).
-6. Design reusable components (card, header, footer, article meta, FAQ, CTA).
-7. Review accessibility and navigation against the concept before coding.
-8. Convert into Astro components, matching the concept pixel-for-pixel where it matters.
-
-Prioritise premium, modern, professional and readable. Avoid unnecessary animation, heavy libraries and
-bulky effects. The site must serve readability, navigation, content discovery, search and advertising UX -
-not just look attractive. For every Stitch concept, audit the palette to zero off-token colours and record
-deltas in NOTES.md (see `google-stitch-concepts`).
+Two rules carry over and are not negotiable: the token file is the only place colour, type and spacing
+values exist, and every design decision is verified in a real browser rather than asserted.
 
 ## Design system
 
@@ -45,7 +35,7 @@ deltas in NOTES.md (see `google-stitch-concepts`).
 
 ## Verification
 
-- [ ] Stitch concept committed and on-palette before markup
+- [ ] Design direction committed and on-palette before markup (see `references/ui-ux-design.md`)
 - [ ] axe clean (no serious/critical) on every template type
 - [ ] contrast passes on all token colour pairs used for text
 - [ ] keyboard-only navigation reaches every link and control

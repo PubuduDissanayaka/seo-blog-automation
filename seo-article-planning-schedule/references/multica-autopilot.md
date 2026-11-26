@@ -26,7 +26,7 @@ Development: requirements collection · research · design planning · developme
 technical SEO audits · security audits · deployment · post-deployment verification.
 
 SEO growth: keyword discovery · topic-cluster updates · calendar generation · article research ·
-drafting · fact verification · editorial QA · approval · publishing · publishing verification · search
+drafting · fact verification · editorial QA · RankMath gate · automated publishing · publishing verification · search
 performance collection · monthly reporting · refresh recommendations.
 
 ## Autonomy levels (human approval gates)
@@ -36,10 +36,11 @@ performance collection · monthly reporting · refresh recommendations.
 - **L3**: execute approved changes.
 - **L4**: execute predefined low-risk automation independently.
 
-Require human approval for: public article publication (default), production infrastructure changes,
-destructive file operations, DNS modifications, billing changes, security configuration changes, changes
-that affect publisher policies, and removal/consolidation of indexed content. Never allow unrestricted
-autonomous execution.
+Article publication is NOT approval-gated: it runs autonomously once the mechanical gates and the RankMath
+95+ gate pass, with `held` items surfaced to a human. Require human approval only for: removal/consolidation
+of indexed content, production infrastructure changes, destructive file operations, DNS modifications,
+billing changes, security configuration changes, and changes that affect publisher policies. YMYL content
+stays approval-gated. Never allow unrestricted autonomous execution beyond these boundaries.
 
 ## Automation reliability
 

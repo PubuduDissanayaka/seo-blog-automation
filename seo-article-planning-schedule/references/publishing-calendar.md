@@ -10,6 +10,13 @@ Approval Required · Approved · Scheduled · Published · Performance Monitorin
 A status change is a tracker write, not a chat message. Keep the tracker and the pipeline queue in sync
 (the tracker is derived from the same gate the build enforces - see `seo-content-pipeline-automation`).
 
+## Automated publishing
+
+Publication is automated: an article publishes once it passes the mechanical gates and the RankMath 95+ gate
+(`references/rankmath-95-gate.md`) - no human-approval step in the happy path. The `Approval Required` and
+`Approved` statuses apply only to the exception path (YMYL content, `held` items). The happy path is
+Drafting -> Fact Checking -> Editing -> SEO Review -> Scheduled -> Published, driven entirely by the gate.
+
 ## Scheduling
 
 Build practical schedules from real capacity, not arbitrary quotas:

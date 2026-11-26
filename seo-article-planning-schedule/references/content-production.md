@@ -49,11 +49,12 @@ Load `seo-master` (E-E-A-T template, AEO/GEO direct-answer structure, SERP analy
 ledger) for the full writing procedure. Follow the two-step production: outline first (gated), then prose;
 never jump straight to a full draft.
 
-## Editorial QA gate
+## Editorial QA gate (automated, pre-publish)
 
-A configurable scoring rubric; any hard-fail condition blocks publication. Score originality, accuracy,
-source quality, intent match, readability, completeness, title quality, heading structure, internal links,
-external references, metadata, image quality, accessibility, policy compliance, overall usefulness.
+A configurable scoring rubric PLUS the RankMath 95+ score (see `references/rankmath-95-gate.md`); any
+hard-fail condition blocks publication. Score originality, accuracy, source quality, intent match,
+readability, completeness, title quality, heading structure, internal links, external references, metadata,
+image quality, accessibility, policy compliance, overall usefulness.
 
 **Hard-fail conditions (never publish):**
 
@@ -62,8 +63,9 @@ external references, metadata, image quality, accessibility, policy compliance, 
 - Keyword stuffing or scaled-content patterns (a page whose primary purpose is manipulation).
 - A title that does not match the content (misleading).
 - Missing required disclosures (affiliate, sponsorship, health/finance claims).
-- YMYL content without the required expert review.
+- YMYL content without the required expert review (the one content class that is NOT auto-published).
 - Any failure of the mechanical gates in `seo-content-pipeline-automation` (article_gates.py).
 
-Run the gate and paste its output as evidence. A pipeline that publishes failing articles is worse than one
-that stops. Set the item to `held` with a reason on any failure.
+The gate runs automatically in the pipeline before publish: a pass auto-publishes, a fail auto-holds. Report
+both the editorial score and the RankMath score as evidence. A pipeline that publishes a failing article is
+worse than one that stops - a held item stays held until the gate passes. Never skip a gate for speed.

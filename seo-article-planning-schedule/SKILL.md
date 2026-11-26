@@ -50,8 +50,10 @@ Do NOT use for:
    secondaries per article (each used once site-wide), and a primary can never be another article's
    secondary. Verify against the live site before publishing AND before planning the next piece.
 5. **Never promise rankings or revenue.** State realistic, evidence-based targets; no guarantees.
-6. **Human review is a publish gate.** Public article publication defaults to approval-required. AI writes
-   drafts; it does not replace editorial responsibility. YMYL topics get stricter review.
+6. **Automated publishing with programmatic gates.** Articles publish automatically once they pass the
+   mechanical gates and the RankMath 95+ score gate - no human-approval step in the happy path. The gates,
+   not a human eyeball, are what block bad content, and they run in the pipeline on every article. Human
+   review is the exception path only: YMYL content, a `held` item, or a gate failure.
 7. **Continuous, not stop-at-publish.** Tracking, decay detection and refresh are part of the loop, not an
    optional extra.
 
@@ -124,6 +126,8 @@ advance.
 - **No fake freshness**: never bump a publication date without substantive changes.
 - **Velocity, not volume**: finite resource is intents, not production capacity; see the velocity policy in
   `references/publishing-calendar.md` and `adsense-monetization-readiness`.
+- **RankMath 95+ gate**: every article is scored against the RankMath post-test checklist before automated
+  publish; only a passing score publishes. See `references/rankmath-95-gate.md`.
 - **Cache-first research**: never pay twice for the same data; batch volumes, one SERP per intent cluster.
 - **Backlinks**: legitimate only (digital PR, original research, useful resources, relevant contributions).
   Never purchased links, PBNs, spam comments or mass guest posts.
@@ -139,9 +143,10 @@ column spec and implementation rules: `references/google-sheets-tracker.md`.
 ## Automation and Autonomy (Multica / multi-agent)
 
 Autonomy levels: L1 research/recommendations · L2 draft/propose · L3 execute approved · L4 predefined
-low-risk automation independently. Human approval required for: public publication (default), production
-infra changes, destructive ops, removal/consolidation of indexed content, publisher-policy-affecting
-changes. Agent roles and workflow details: `references/multica-autopilot.md`. Inspect the actual workspace
+low-risk automation independently. Article publication is L4: it runs automatically once the article passes
+the mechanical gates and the RankMath 95+ gate, with no human-approval step in the happy path. Human approval
+is required only for: removal/consolidation of indexed content, production infra changes, destructive ops,
+publisher-policy-affecting changes, and any article the gate sets to `held`. Agent roles and workflow details: `references/multica-autopilot.md`. Inspect the actual workspace
 capabilities before assuming them.
 
 ## Token and Cost Optimisation (Ponytail)
@@ -162,6 +167,7 @@ Load only the file the current stage needs:
 - `references/google-sheets-tracker.md` - the 10-sheet workbook spec.
 - `references/performance-monitoring.md` - GSC/GA4, decay and refresh, backlinks, reporting, roadmap.
 - `references/multica-autopilot.md` - agent roles, workflows, autonomy levels, reliability.
+- `references/rankmath-95-gate.md` - the programmatic RankMath 95+ scoring gate enforced before automated publish.
 
 ## Verification
 

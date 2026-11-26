@@ -44,7 +44,9 @@ Deep procedural detail lives in `references/`, loaded only when the current phas
   destination/season questions).
 - **Keyword uniqueness** - 1 primary keyword per URL (never reused), 5 secondaries per article,
   a primary is never another article's secondary.
-- **Human review is a publish gate** - AI writes drafts; publication defaults to approval-required.
+- **Automated publishing with a RankMath 95+ gate** - articles publish automatically once they pass the
+  mechanical gates and the RankMath post-test score gate; human review only for YMYL content, `held` items
+  or gate failures.
 - **No guarantees** - neither skill promises AdSense approval, rankings or revenue.
 
 ## Installing into Hermes

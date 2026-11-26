@@ -26,6 +26,8 @@ Zero overlap. Each skill is independently executable. Together they cover a blog
 
 ## Start here
 
+**First time? Read [SETUP.md](SETUP.md) for the full from-scratch guide, prerequisites and account setup.**
+
 ```bash
 git clone https://github.com/PubuduDissanayaka/seo-blog-automation.git
 cp -r seo-blog-automation/seo-blog-website-development    ~/.hermes/skills/seo/
@@ -75,7 +77,9 @@ for the system, `design-taste-frontend` for art direction and the anti-slop gate
 
 ```
 seo-blog-automation/
+├── SETUP.md                                 from-scratch guide: prerequisites, accounts, first run
 ├── scripts/
+│   ├── preflight.sh                         executable prerequisite + companion-skill checker
 │   └── validate.py                          frontmatter + dangling-reference validator
 │
 ├── seo-blog-website-development/
@@ -180,6 +184,7 @@ Full specification and the hard pitfalls that silently cost points: [`rankmath-9
 
 | Artifact | Purpose |
 |:--|:--|
+| `scripts/preflight.sh` | Checks Node, Python, git, browser, GitHub auth and all 28 companion skills. Exits non-zero on any hard failure. |
 | `scripts/validate.py` | Validates both skills and every referenced file. Stdlib only, runs on a fresh clone. |
 | `templates/PROJECT.md` | The shared context skeleton both skills depend on. |
 | `templates/article-brief.md` | 21-field brief. Filled before any draft exists. |
